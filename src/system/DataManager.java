@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 /**
@@ -23,6 +22,7 @@ public class DataManager {
             String l = br.readLine();
             while (l != null) {
                 cola.offer(l);
+                l = br.readLine();
             }
         } catch (IOException ex) {
             
