@@ -5,6 +5,9 @@
  */
 package system;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -143,11 +146,11 @@ public class BT<E> {
             return searchParent(data, n.right);
         }
     }
-    
+
     public void reiniciarNodoActual() {
         nodoActual = root;
     }
-    
+
     public void decisionSi() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.left;
@@ -155,7 +158,7 @@ public class BT<E> {
             System.out.println("OK");
         }
     }
-    
+
     public void decisionNo() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.right;
@@ -182,7 +185,7 @@ public class BT<E> {
             n.right = new Node<>((E) animal, Tipo.R);
         }
         n.data = (E) pregunta;
-        */
+         */
     }
 
     public void crearArbolAnimal() {
@@ -194,12 +197,11 @@ public class BT<E> {
         String l = cola.poll();
         char tipo = l.charAt(1);
         String frase = l.substring(3);
-        if(tipo == 'P') {
+        if (tipo == 'P') {
             n = new Node<>((E) frase, Tipo.P);
         } else {
             n = new Node<>((E) frase, Tipo.R);
         }
-        
 
         if (tipo == 'P') {
             n.left = crearArbolAnimal(cola, n.left);
@@ -207,8 +209,26 @@ public class BT<E> {
         }
         return n;
     }
-    
+
     public E getNodoActualData() {
         return nodoActual.data;
+    }
+
+    public void guardarArbol() throws IOException {
+        guardarArbol(new BufferedWriter(new FileWriter("datos.txt")), root);
+    }
+
+    private void guardarArbol(BufferedWriter bw, Node<E> n) throws IOException {
+        if (n != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("#");
+            sb.append(n.tipo);
+            sb.append(" ");
+            sb.append(n.data);
+            sb.append("\n");
+            bw.write(sb.toString());
+            guardarArbol(bw, n.left);
+            guardarArbol(bw, n.right);
+        }
     }
 }
