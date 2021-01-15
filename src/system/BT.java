@@ -151,38 +151,25 @@ public class BT<E> {
     public void decisionSi() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.left;
-        } else {
-            System.out.println("OK");
         }
     }
     
     public void decisionNo() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.right;
-        } else {
-            añadirFaltante(nodoActual);
         }
     }
 
-    private void añadirFaltante(Node<E> n) {
-        /*
-        System.out.print("Ayudame, a mejorar mi predicción!\nQué animal estabas pensando?");
-        String animal = sc.nextLine();
-        System.out.println("Escribe una pregunta que me permita diferenciar entre un " + animal + " y un " + n.data);
-        String pregunta = sc.nextLine();
-        System.out.println("Para un " + animal + ", la respuesta a la pregunta: \"" + pregunta + "\", es si o no?");
-        String respuesta = sc.nextLine();
-        System.out.println("Gracias");
-
+    public void añadirFaltante(String animal, String pregunta, String respuesta) {
         if (respuesta.equals("SI")) {
-            n.left = new Node<>((E) animal, Tipo.R);
-            n.right = new Node<>(n.data, Tipo.R);
+            nodoActual.left = new Node<>((E) animal, Tipo.R);
+            nodoActual.right = new Node<>(nodoActual.data, Tipo.R);
         } else if (respuesta.equals("NO")) {
-            n.left = new Node<>(n.data, Tipo.R);
-            n.right = new Node<>((E) animal, Tipo.R);
+            nodoActual.left = new Node<>(nodoActual.data, Tipo.R);
+            nodoActual.right = new Node<>((E) animal, Tipo.R);
         }
-        n.data = (E) pregunta;
-        */
+        nodoActual.data = (E) pregunta;
+        nodoActual.tipo = Tipo.P;
     }
 
     public void crearArbolAnimal() {
