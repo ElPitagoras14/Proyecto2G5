@@ -8,4 +8,4 @@
 #R un pinguino
 #P vive en el oceano?
 #R un calamar
-#R una araña
+#R una araï¿½a
