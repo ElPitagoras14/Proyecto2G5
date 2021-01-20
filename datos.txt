@@ -1,11 +1,15 @@
 #P es un mamifero?
 #P es un animal domestico?
+#P ¿Maulla?
+#R Gato
 #R un perro
 #P es un animal de granja?
 #R una oveja
 #R un elefante
 #P es un ave?
+#P ¿Vuela?
+#R loro
 #R un pinguino
 #P vive en el oceano?
 #R un calamar
-#R una ara�a
+#R una araña

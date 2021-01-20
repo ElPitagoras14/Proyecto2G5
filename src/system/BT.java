@@ -8,10 +8,14 @@ package system;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import views.VentanaAñadirNodo;
+import views.VentanaPreguntas;
 
 /**
  *
@@ -143,6 +147,8 @@ public class BT<E> {
     public void decisionSi() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.left;
+        }else{
+            VentanaPreguntas.txtAux.setText("He adivinado! ---- Reinicia si deseas\n jugar de Nuevo");
         }
     }
     
@@ -150,8 +156,7 @@ public class BT<E> {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.right;
         }
-        
-        if(nodoActual.right == null){
+        else{
             VentanaAñadirNodo ventana = new VentanaAñadirNodo();
             ventana.setAnimalAnterior((String)nodoActual.data);
             Scene scene = new Scene(ventana.getRoot(),400,400);
@@ -161,6 +166,7 @@ public class BT<E> {
             escenario.setTitle("boo!");
             escenario.show();
             ventana.setStage(escenario);
+            ventana.setBT((BT<String>) this);
         }
     }
 
@@ -202,21 +208,30 @@ public class BT<E> {
         return nodoActual.data;
     }
     
-    public void guardarArbol() throws IOException {
-        guardarArbol(new BufferedWriter(new FileWriter("datos.txt")), root);
+    public void guardarArbol(){
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter("datos.txt"))){
+            
+            guardarArbol(bw,root);
+        }catch(IOException ex){
+            System.out.println("No se pudo encontrar el archivo");  
+        }
     }
 
-    private void guardarArbol(BufferedWriter bw, Node<E> n) throws IOException {
+    private void guardarArbol(BufferedWriter bw, Node<E> n){
         if (n != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("#");
-            sb.append(n.tipo);
-            sb.append(" ");
-            sb.append(n.data);
-            sb.append("\n");
-            bw.write(sb.toString());
-            guardarArbol(bw, n.left);
-            guardarArbol(bw, n.right);
+            try {
+                StringBuilder sb = new StringBuilder();
+                sb.append("#");
+                sb.append(n.tipo);
+                sb.append(" ");
+                sb.append(n.data);
+                bw.write(sb.toString());
+                bw.newLine();
+                guardarArbol(bw, n.left);
+                guardarArbol(bw, n.right);
+            } catch (IOException ex) {
+                Logger.getLogger(BT.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

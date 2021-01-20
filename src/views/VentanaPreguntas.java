@@ -84,6 +84,7 @@ public class VentanaPreguntas {
         });
         reiniciar.setOnMouseClicked((ev) -> {
             arbolAnimal.reiniciarNodoActual();
+            txtAux.setText("Piensa en un animal que yo trataré de adivinarlo");
             actualizarInfo();
         });
         h1.getChildren().add(si);

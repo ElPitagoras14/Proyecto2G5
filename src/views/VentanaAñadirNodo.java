@@ -5,10 +5,14 @@
  */
 package views;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -17,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import system.BT;
 
 /**
  *
@@ -27,7 +32,8 @@ public class VentanaAñadirNodo {
    private TextField campoUser;
    private Text textoPresentar1;
    private Text textoPresentar2;
-   private Button enviar,enviar2;
+   private Button enviar;
+   private Button enviar2;
    private Button si;
    private Button no;
    private VBox v1;
@@ -36,6 +42,7 @@ public class VentanaAñadirNodo {
    private String pregunta;
    private String animalAnterior;
    private Stage escenario;
+   private BT<String> arbol;
    public VentanaAñadirNodo(){
        crearItems();
        
@@ -54,7 +61,6 @@ public class VentanaAñadirNodo {
                      animal = campoUser.getText();
                      enviar2 = new Button("Enviar");
                      cambiarVbox(enviar2);
-                     campoUser.setText("");
                      textoPresentar2.setText("Escribe una pregunta que me\npermita diferenciar\nentre un "+animal+ " y "+animalAnterior);
                      v1.getChildren().remove(enviar);
                      v1.getChildren().add(enviar2);
@@ -68,6 +74,8 @@ public class VentanaAñadirNodo {
         v1.setSpacing(15);
         v1.setLayoutX(100);
         v1.setLayoutY(100);
+        v1.setScaleX(1.2);
+        v1.setScaleY(1.2);
         v1.getChildren().addAll(textoPresentar1,textoPresentar2,campoUser,enviar);
         root.getChildren().add(v1);
         
@@ -89,9 +97,46 @@ public class VentanaAñadirNodo {
         btn.setOnMouseClicked(new EventHandler(){
             @Override
             public void handle(Event event) {
-                root.getChildren().clear();
+                pregunta = campoUser.getText();
+                si = new Button("Si");
+                no = new Button("No");
+                hb = new HBox();
+                hb.setSpacing(20);
+                hb.setAlignment(Pos.CENTER);
+                hb.getChildren().addAll(si,no);
+                v1.getChildren().remove(enviar2);
+                v1.getChildren().add(hb);
+                v1.getChildren().remove(campoUser);
+                textoPresentar2.setText("Para el animal "+animal+", la respuesta a la pregunta:\n "+pregunta+", es si o no?");
+                textoPresentar2.setTextOrigin(VPos.CENTER);
+                si.setOnMouseClicked(new EventHandler(){
+                    @Override
+                    public void handle(Event event) {
+                        
+                            textoPresentar2.setText("Gracias, he aprendido algo nuevo!");
+                            arbol.añadirFaltante(animal, pregunta, "SI");
+                            v1.getChildren().remove(hb);
+                            arbol.guardarArbol();
+
+                    }
+                });
+                
+                no.setOnMouseClicked(new EventHandler(){
+                    @Override
+                    public void handle(Event event) {
+                            textoPresentar2.setText("Gracias, he aprendido algo nuevo!");
+                            arbol.añadirFaltante(animal,pregunta,"NO");
+                            v1.getChildren().remove(hb);
+                            arbol.guardarArbol();
+                    }
+                });
+
             }
         });
+    }
+    
+    public void setBT(BT<String> arbol){
+        this.arbol = arbol;
     }
    
 }
