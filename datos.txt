@@ -12,4 +12,10 @@
 #R un pinguino
 #P vive en el oceano?
 #R un calamar
+#P ¿Corre?
+#R Jabalí
+#P Camina
+#R Gato
+#P ghfg
 #R una araña
+#R ghfg

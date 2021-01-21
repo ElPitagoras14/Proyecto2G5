@@ -24,53 +24,66 @@ import system.BT;
  * @author El Pitagoras
  */
 public class VentanaPreguntas {
+
     private Pane root;
-    private VBox vbox;
+    private VBox columnaInterfaz;
     private BT<String> arbolAnimal;
     private Button si;
     private Button no;
     private Button reiniciar;
-    private boolean avanzar;
     private TextField texto;
     private Text pregunta;
-    public static Text txtAux;
-    
+    private Text feedback;
+
     public VentanaPreguntas() {
+        root = new Pane();
+        columnaInterfaz = new VBox();
         crearItems();
         arbolAnimal = new BT<>();
         arbolAnimal.crearArbolAnimal();
         actualizarInfo();
     }
-    
+
     private void crearItems() {
-        root = new Pane();
-        txtAux = new Text("Piensa en un animal que yo trataré de adivinarlo");
-        txtAux.setLayoutX(200);
-        txtAux.setLayoutY(30);
-        txtAux.setWrappingWidth(200);
-        txtAux.setFill(Color.WHITE);
-        txtAux.setScaleX(2.2);
-        txtAux.setScaleY(2.2);
+        crearImagenes();
+        crearSeccionFeedback();
+        crearSeccionAdivinar();
+        crearSeccionPregunta();
+    }
+    
+    private void crearSeccionFeedback() {
+        feedback = new Text("Piensa en un animal que yo trataré de adivinarlo");
+        feedback.setLayoutX(200);
+        feedback.setLayoutY(30);
+        feedback.setWrappingWidth(200);
+        feedback.setFill(Color.WHITE);
+        feedback.setScaleX(2.2);
+        feedback.setScaleY(2.2);
+        root.getChildren().add(feedback);
+    }
+
+    private void crearImagenes() {
         ImageView stage = new ImageView(new Image("/src/stage.jpg"));
         stage.setFitHeight(600);
         stage.setFitWidth(800);
-        
-        ImageView genio = new ImageView( new Image("/src/genioPregunta.png"));
+
+        ImageView genio = new ImageView(new Image("/src/genioPregunta.png"));
         genio.setFitWidth(278);
-        genio.setFitHeight(400);    
+        genio.setFitHeight(400);
         genio.setLayoutX(40);
         genio.setLayoutY(70);
-        
-        
-        VBox v1 = new VBox();
-        v1.setAlignment(Pos.CENTER);
-        v1.setPadding(new Insets(10));
-        v1.setSpacing(15);
-        
+        root.getChildren().addAll(stage, genio);
+    }
+
+    private void crearSeccionAdivinar() {
+        columnaInterfaz.setAlignment(Pos.CENTER);
+        columnaInterfaz.setPadding(new Insets(10));
+        columnaInterfaz.setSpacing(15);
+
         HBox h1 = new HBox();
         h1.setAlignment(Pos.CENTER);
         h1.setSpacing(10);
-        
+
         si = new Button("SI");
         no = new Button("NO");
         reiniciar = new Button("Reiniciar");
@@ -84,13 +97,21 @@ public class VentanaPreguntas {
         });
         reiniciar.setOnMouseClicked((ev) -> {
             arbolAnimal.reiniciarNodoActual();
-            txtAux.setText("Piensa en un animal que yo trataré de adivinarlo");
+            feedback.setText("Piensa en un animal que yo trataré de adivinarlo");
             actualizarInfo();
         });
         h1.getChildren().add(si);
         h1.getChildren().add(no);
         h1.getChildren().add(reiniciar);
+
         
+        columnaInterfaz.getChildren().add(h1);
+        columnaInterfaz.setLayoutX(370);
+        columnaInterfaz.setLayoutY(220);
+        root.getChildren().add(columnaInterfaz);
+    }
+    
+    private void crearSeccionPregunta() {
         pregunta = new Text();
         pregunta.setTextAlignment(TextAlignment.CENTER);
         pregunta.setFill(Color.WHITE);
@@ -101,39 +122,19 @@ public class VentanaPreguntas {
         texto.setDisable(true);
         texto.setVisible(false);
         
-        v1.getChildren().add(pregunta);
-        v1.getChildren().add(texto);
-        v1.getChildren().add(h1);
-        v1.setLayoutX(370);
-        v1.setLayoutY(220);
-        root.getChildren().addAll(stage,genio,v1,txtAux);
+        columnaInterfaz.getChildren().add(pregunta);
+        columnaInterfaz.getChildren().add(texto);
     }
-    
+
     private void actualizarInfo() {
         pregunta.setText(arbolAnimal.getNodoActualData());
     }
-    
+
     public Pane getRoot() {
         return root;
     }
     
-    private class HiloAñadir implements Runnable {
-
-        @Override
-        public void run() {
-            while (!avanzar) {
-                
-            }
-            avanzar = false;
-            texto.getText();
-            texto.setText("");
-            while (!avanzar) {
-                
-            }
-            avanzar = false;
-            texto.getText();
-            texto.setText("");
-        }
-        
+    public void actualizarFeedback(String txt) {
+        feedback.setText(txt);
     }
 }

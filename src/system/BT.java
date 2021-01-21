@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import views.VentanaAñadirNodo;
+import views.VentanaAddNodo;
 import views.VentanaPreguntas;
 
 /**
@@ -103,7 +103,6 @@ public class BT<E> {
         return 1 + Math.max(height(n.left), height(n.right));
     }
 
-
     private Node<E> searchNode(E data) {
         return searchNode(data, root);
     }
@@ -139,35 +138,37 @@ public class BT<E> {
             return searchParent(data, n.right);
         }
     }
-    
+
     public void reiniciarNodoActual() {
         nodoActual = root;
     }
-    
+
     public void decisionSi() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.left;
-        }else{
-            VentanaPreguntas.txtAux.setText("He adivinado! ---- Reinicia si deseas\n jugar de Nuevo");
+        } else {
+            //("He adivinado! ---- Reinicia si deseas\n jugar de Nuevo");
         }
     }
-    
+
     public void decisionNo() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.right;
+        } else {
+            añadirFaltanteInterfaz();
         }
-        else{
-            VentanaAñadirNodo ventana = new VentanaAñadirNodo();
-            ventana.setAnimalAnterior((String)nodoActual.data);
-            Scene scene = new Scene(ventana.getRoot(),400,400);
-            Stage escenario = new Stage();
-            escenario.setScene(scene);
-            escenario.setResizable(false);
-            escenario.setTitle("boo!");
-            escenario.show();
-            ventana.setStage(escenario);
-            ventana.setBT((BT<String>) this);
-        }
+    }
+
+    private void añadirFaltanteInterfaz() {
+        VentanaAddNodo ventana = new VentanaAddNodo();
+        ventana.setAnimalAnterior((String) nodoActual.data);
+        Scene scene = new Scene(ventana.getRoot(), 400, 400);
+        Stage escenario = new Stage();
+        escenario.setScene(scene);
+        escenario.setResizable(false);
+        escenario.setTitle("boo!");
+        escenario.show();
+        ventana.setBT((BT<String>) this);
     }
 
     public void añadirFaltante(String animal, String pregunta, String respuesta) {
@@ -196,28 +197,28 @@ public class BT<E> {
         } else {
             n = new Node<>((E) frase, Tipo.R);
         }
-        
+
         if (tipo == 'P') {
             n.left = crearArbolAnimal(cola, n.left);
             n.right = crearArbolAnimal(cola, n.right);
         }
         return n;
     }
-    
+
     public E getNodoActualData() {
         return nodoActual.data;
     }
-    
-    public void guardarArbol(){
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter("datos.txt"))){
-            
-            guardarArbol(bw,root);
-        }catch(IOException ex){
-            System.out.println("No se pudo encontrar el archivo");  
+
+    public void guardarArbol() {
+        try ( BufferedWriter bw = new BufferedWriter(new FileWriter("datos.txt"))) {
+
+            guardarArbol(bw, root);
+        } catch (IOException ex) {
+            System.out.println("No se pudo encontrar el archivo");
         }
     }
 
-    private void guardarArbol(BufferedWriter bw, Node<E> n){
+    private void guardarArbol(BufferedWriter bw, Node<E> n) {
         if (n != null) {
             try {
                 StringBuilder sb = new StringBuilder();
