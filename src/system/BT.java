@@ -8,14 +8,12 @@ package system;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import views.VentanaAddNodo;
-import views.VentanaPreguntas;
 
 /**
  *
@@ -47,39 +45,6 @@ public class BT<E> {
         return root == null;
     }
 
-    public boolean add(E child, E parent) {
-        Node<E> nchild = new Node<>(child, Tipo.P);
-        if (isEmpty() && parent == null) {
-            root = nchild;
-            return true;
-        }
-        Node<E> np = searchNode(parent);
-        Node<E> nce = searchNode(child);
-        if (nce == null && np != null) {
-            if (np.left == null) {
-                np.left = nchild;
-                return true;
-            } else if (np.right == null) {
-                np.right = nchild;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean remove(E data) {
-        Node<E> p = searchNode(data);
-        if (p == null) {
-            return false;
-        }
-        if (p.left != null && p.left.data.equals(data)) {
-            p.left = null;
-        } else {
-            p.right = null;
-        }
-        return true;
-    }
-
     public int size() {
         return size(root);
     }
@@ -103,42 +68,6 @@ public class BT<E> {
         return 1 + Math.max(height(n.left), height(n.right));
     }
 
-    private Node<E> searchNode(E data) {
-        return searchNode(data, root);
-    }
-
-    private Node<E> searchNode(E data, Node<E> p) {
-        if (p == null) {
-            return p;
-        } else if (p.data.equals(data)) {
-            return p;
-        } else {
-            Node<E> rl = searchNode(data, p.left);
-            if (rl != null) {
-                return rl;
-            }
-            return searchNode(data, p.right);
-        }
-    }
-
-    private Node<E> searchParent(E data) {
-        return searchParent(data, root);
-    }
-
-    private Node<E> searchParent(E data, Node<E> n) {
-        if (n == null) {
-            return n;
-        } else if ((n.left != null && n.left.data.equals(data)) || (n.right != null && n.right.data.equals(data))) {
-            return n;
-        } else {
-            Node<E> rl = searchParent(data, n.left);
-            if (rl != null) {
-                return rl;
-            }
-            return searchParent(data, n.right);
-        }
-    }
-
     public void reiniciarNodoActual() {
         nodoActual = root;
     }
@@ -146,30 +75,16 @@ public class BT<E> {
     public void decisionSi() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.left;
-        } else {
-            //("He adivinado! ---- Reinicia si deseas\n jugar de Nuevo");
         }
     }
 
     public void decisionNo() {
         if (nodoActual.tipo == Tipo.P) {
             nodoActual = nodoActual.right;
-        } else {
-            añadirFaltanteInterfaz();
         }
     }
 
-    private void añadirFaltanteInterfaz() {
-        VentanaAddNodo ventana = new VentanaAddNodo();
-        ventana.setAnimalAnterior((String) nodoActual.data);
-        Scene scene = new Scene(ventana.getRoot(), 400, 400);
-        Stage escenario = new Stage();
-        escenario.setScene(scene);
-        escenario.setResizable(false);
-        escenario.setTitle("boo!");
-        escenario.show();
-        ventana.setBT((BT<String>) this);
-    }
+    
 
     public void añadirFaltante(String animal, String pregunta, String respuesta) {
         if (respuesta.equals("SI")) {

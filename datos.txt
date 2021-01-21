@@ -1,21 +1,15 @@
-#P es un mamifero?
-#P es un animal domestico?
-#P ¿Maulla?
-#R Gato
+#P ¿Es un mamifero?
+#P ¿Es un animal domestico?
+#P ¿Vuela?
+#R gato
 #R un perro
-#P es un animal de granja?
+#P ¿Es un animal de granja?
 #R una oveja
 #R un elefante
-#P es un ave?
-#P ¿Vuela?
-#R loro
+#P ¿Es un ave?
 #R un pinguino
-#P vive en el oceano?
+#P ¿Vive en el oceano?
 #R un calamar
-#P ¿Corre?
+#P ¿Camina?
 #R Jabalí
-#P Camina
-#R Gato
-#P ghfg
 #R una araña
-#R ghfg

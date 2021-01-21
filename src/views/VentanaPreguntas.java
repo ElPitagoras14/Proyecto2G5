@@ -7,6 +7,7 @@ package views;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import system.BT;
 
 /**
@@ -34,6 +36,7 @@ public class VentanaPreguntas {
     private TextField texto;
     private Text pregunta;
     private Text feedback;
+    private String animalPrevio;
 
     public VentanaPreguntas() {
         root = new Pane();
@@ -42,6 +45,7 @@ public class VentanaPreguntas {
         arbolAnimal = new BT<>();
         arbolAnimal.crearArbolAnimal();
         actualizarInfo();
+        animalPrevio = "";
     }
 
     private void crearItems() {
@@ -50,7 +54,7 @@ public class VentanaPreguntas {
         crearSeccionAdivinar();
         crearSeccionPregunta();
     }
-    
+
     private void crearSeccionFeedback() {
         feedback = new Text("Piensa en un animal que yo trataré de adivinarlo");
         feedback.setLayoutX(200);
@@ -88,29 +92,24 @@ public class VentanaPreguntas {
         no = new Button("NO");
         reiniciar = new Button("Reiniciar");
         si.setOnMouseClicked((ev) -> {
-            arbolAnimal.decisionSi();
-            actualizarInfo();
+            botonSi();
         });
         no.setOnMouseClicked((ev) -> {
-            arbolAnimal.decisionNo();
-            actualizarInfo();
+            botonNo();
         });
         reiniciar.setOnMouseClicked((ev) -> {
-            arbolAnimal.reiniciarNodoActual();
-            feedback.setText("Piensa en un animal que yo trataré de adivinarlo");
-            actualizarInfo();
+            botonReiniciar();
         });
         h1.getChildren().add(si);
         h1.getChildren().add(no);
         h1.getChildren().add(reiniciar);
 
-        
         columnaInterfaz.getChildren().add(h1);
         columnaInterfaz.setLayoutX(370);
         columnaInterfaz.setLayoutY(220);
         root.getChildren().add(columnaInterfaz);
     }
-    
+
     private void crearSeccionPregunta() {
         pregunta = new Text();
         pregunta.setTextAlignment(TextAlignment.CENTER);
@@ -121,20 +120,56 @@ public class VentanaPreguntas {
         texto.setMaxWidth(150);
         texto.setDisable(true);
         texto.setVisible(false);
-        
+
         columnaInterfaz.getChildren().add(pregunta);
         columnaInterfaz.getChildren().add(texto);
     }
 
+    private void botonSi() {
+        animalPrevio = arbolAnimal.getNodoActualData();
+        arbolAnimal.decisionSi();
+        actualizarInfo();
+        if (animalPrevio.equals(arbolAnimal.getNodoActualData())) {
+            feedback.setText("He adivinado! ---- Reinicia si deseas\n jugar de Nuevo");
+        }
+    }
+
+    private void botonNo() {
+        animalPrevio = arbolAnimal.getNodoActualData();
+        arbolAnimal.decisionNo();
+        actualizarInfo();
+        if (animalPrevio.equals(arbolAnimal.getNodoActualData())) {
+            feedback.setText("No he podido adivinar, pero ayudame a mejorar");
+            añadirFaltanteInterfaz();
+        }
+    }
+
+    private void botonReiniciar() {
+        arbolAnimal.reiniciarNodoActual();
+        feedback.setText("Piensa en un animal que yo trataré de adivinarlo");
+        actualizarInfo();
+    }
+    
+    private void añadirFaltanteInterfaz() {
+        VentanaAddNodo ventana = new VentanaAddNodo();
+        ventana.setAnimalAnterior(arbolAnimal.getNodoActualData());
+        Scene scene = new Scene(ventana.getRoot(), 400, 400);
+        Stage escenario = new Stage();
+        escenario.setScene(scene);
+        escenario.setResizable(false);
+        escenario.setTitle("boo!");
+        escenario.show();
+        ventana.setBT(arbolAnimal);
+        escenario.setOnCloseRequest((ev) -> {
+            botonReiniciar();
+        });
+    }
+
     private void actualizarInfo() {
-        pregunta.setText(arbolAnimal.getNodoActualData());
+        pregunta.setText(arbolAnimal.getNodoActualData().toUpperCase());
     }
 
     public Pane getRoot() {
         return root;
-    }
-    
-    public void actualizarFeedback(String txt) {
-        feedback.setText(txt);
     }
 }
