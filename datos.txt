@@ -1,7 +1,5 @@
 #P ¿Es un mamifero?
 #P ¿Es un animal domestico?
-#P ¿Vuela?
-#R gato
 #R un perro
 #P ¿Es un animal de granja?
 #R una oveja
@@ -10,6 +8,4 @@
 #R un pinguino
 #P ¿Vive en el oceano?
 #R un calamar
-#P ¿Camina?
-#R Jabalí
 #R una araña

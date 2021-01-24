@@ -25,46 +25,47 @@ import main.App;
  * @author User
  */
 public class VentanaPrincipal {
+
     private Pane root;
-    //private Font f = cargarFuente(100);
+    private Font f = cargarFuente(100);
     private ImageView startBoton;
     private ImageView exitBoton;
-    public VentanaPrincipal(){
-         crearItems();
+
+    public VentanaPrincipal() {
+        crearItems();
     }
-    
-    public void crearItems(){
-        
-        root= new Pane();
+
+    private void crearItems() {
+        root = new Pane();
         HBox cajita = new HBox();
-        ImageView fondo = new ImageView( new Image("/src/stageInicio.jpg"));
+        ImageView fondo = new ImageView(new Image("/src/stageInicio.jpg"));
         fondo.setFitWidth(800);
         fondo.setFitHeight(500);
-        ImageView genio = new ImageView( new Image("/src/genioPregunta.png"));
+        ImageView genio = new ImageView(new Image("/src/genioPregunta.png"));
         genio.setFitWidth(278);
-        genio.setFitHeight(400);    
+        genio.setFitHeight(400);
         genio.setLayoutX(40);
         genio.setLayoutY(60);
-        ImageView lampara = new ImageView( new Image("/src/lampara.png"));
+        ImageView lampara = new ImageView(new Image("/src/lampara.png"));
         lampara.setLayoutX(180);
         lampara.setLayoutY(420);
         lampara.setFitWidth(137);
         lampara.setFitHeight(77);
 
-        Label titulo= new Label("GENIO");
-        Label titulo1 = new Label ("POLITECNICO");
+        Label titulo = new Label("GENIO");
+        Label titulo1 = new Label("POLITECNICO");
         titulo.setTextFill(Color.YELLOW);
-        //titulo.setFont(f);
+        titulo.setFont(f);
         titulo.setLayoutX(500);
         titulo.setLayoutY(150);
-        //titulo1.setFont(f);
+        titulo1.setFont(f);
         titulo1.setTextFill(Color.YELLOW);
         titulo1.setLayoutX(400);
-        titulo1.setLayoutY(225);        
-        startBoton = new ImageView( new Image("/src/startButton.png"));
+        titulo1.setLayoutY(225);
+        startBoton = new ImageView(new Image("/src/startButton.png"));
         startBoton.setFitWidth(100);
         startBoton.setFitHeight(100);
-        
+
         startBoton.setOnMouseClicked((Event event) -> {
             Scene scene = new Scene(new VentanaPreguntas().getRoot(), 800, 600);
             Stage escenario = new Stage();
@@ -74,32 +75,32 @@ public class VentanaPrincipal {
             escenario.show();
             App.primaria.close();
         });
-        
-        exitBoton = new ImageView( new Image("/src/exitButton2.png"));
+
+        exitBoton = new ImageView(new Image("/src/exitButton2.png"));
         exitBoton.setFitWidth(110);
         exitBoton.setFitHeight(100);
-        
+
         exitBoton.setOnMouseClicked((Event event) -> {
             App.primaria.close();
         });
-        
-        cajita.getChildren().addAll(startBoton,exitBoton);
+
+        cajita.getChildren().addAll(startBoton, exitBoton);
         cajita.setLayoutX(500);
         cajita.setLayoutY(300);
-        root.getChildren().addAll(fondo,genio,lampara,titulo,titulo1,cajita);
+        root.getChildren().addAll(fondo, genio, lampara, titulo, titulo1, cajita);
     }
 
     public Pane getRoot() {
         return root;
     }
-    
-    public static Font cargarFuente(int num){
-         Font f= null;
+
+    public static Font cargarFuente(int num) {
+        Font f = null;
         try {
-             f = Font.loadFont(new FileInputStream(new File("C:/Users/User/Documents/NetBeansProjects/GUIFormExamples/src/src/Minangkabau.TTF")),num);     
+            f = Font.loadFont(new FileInputStream(new File("Minangkabau.TTF")), num);
         } catch (Exception ex) {
-            System.out.println("no se pudo cargar");
+            System.out.println("No se pudo cargar");
         }
         return f;
-    }      
+    }
 }

@@ -15,13 +15,15 @@ import views.VentanaPrincipal;
  * @author El Pitagoras
  */
 public class App extends Application {
+
     private static Scene scene;
     public static Stage primaria;
+
     @Override
     public void start(Stage primaryStage) {
         VentanaPrincipal vi = new VentanaPrincipal();
         scene = new Scene(vi.getRoot(), 800, 500);
-        scene.getStylesheets().addAll(this.getClass().getResource("/src/Estilos.css").toExternalForm());               
+        scene.getStylesheets().addAll(this.getClass().getResource("/src/Estilos.css").toExternalForm());
         primaryStage.setTitle("Genio Politecnico");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

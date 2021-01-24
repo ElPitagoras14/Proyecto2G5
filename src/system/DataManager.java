@@ -6,8 +6,10 @@
 package system;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -18,7 +20,7 @@ import java.util.Queue;
 public class DataManager {
     public static Queue<String> leerDatos(String path) {
         Queue<String> cola = new LinkedList<>();
-        try(BufferedReader br = new BufferedReader(new FileReader(path))) {
+        try(BufferedReader br = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             String l = br.readLine();
             while (l != null) {
                 cola.offer(l);
