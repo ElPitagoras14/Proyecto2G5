@@ -7,8 +7,10 @@ package views;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import main.App;
+import system.DataManager;
 
 /**
  *
@@ -28,8 +31,6 @@ public class VentanaPrincipal {
 
     private Pane root;
     private Font f = cargarFuente(100);
-    private ImageView startBoton;
-    private ImageView exitBoton;
 
     public VentanaPrincipal() {
         crearItems();
@@ -62,7 +63,7 @@ public class VentanaPrincipal {
         titulo1.setTextFill(Color.YELLOW);
         titulo1.setLayoutX(400);
         titulo1.setLayoutY(225);
-        startBoton = new ImageView(new Image("/src/startButton.png"));
+        ImageView startBoton = new ImageView(new Image("/src/startButton.png"));
         startBoton.setFitWidth(100);
         startBoton.setFitHeight(100);
 
@@ -73,16 +74,14 @@ public class VentanaPrincipal {
             escenario.setScene(scene);
             escenario.setResizable(false);
             escenario.show();
-            App.primaria.close();
+            App.getPrimaria().close();
         });
 
-        exitBoton = new ImageView(new Image("/src/exitButton2.png"));
+        ImageView exitBoton = new ImageView(new Image("/src/exitButton2.png"));
         exitBoton.setFitWidth(110);
         exitBoton.setFitHeight(100);
 
-        exitBoton.setOnMouseClicked((Event event) -> {
-            App.primaria.close();
-        });
+        exitBoton.setOnMouseClicked((Event event) ->  App.primaria.close());
 
         cajita.getChildren().addAll(startBoton, exitBoton);
         cajita.setLayoutX(500);
@@ -98,8 +97,9 @@ public class VentanaPrincipal {
         Font f = null;
         try {
             f = Font.loadFont(new FileInputStream(new File("Minangkabau.TTF")), num);
-        } catch (Exception ex) {
-            System.out.println("No se pudo cargar");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return f;
     }

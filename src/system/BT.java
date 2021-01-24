@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import views.VentanaAddNodo;
 
 /**
  *
@@ -86,7 +83,7 @@ public class BT<E> {
 
     
 
-    public void añadirFaltante(String animal, String pregunta, String respuesta) {
+    public void addFaltante(String animal, String pregunta, String respuesta) {
         if (respuesta.equals("SI")) {
             nodoActual.left = new Node<>((E) animal, Tipo.R);
             nodoActual.right = new Node<>(nodoActual.data, Tipo.R);
@@ -112,7 +109,7 @@ public class BT<E> {
         } else {
             n = new Node<>((E) frase, Tipo.R);
         }
-
+        
         if (tipo == 'P') {
             n.left = crearArbolAnimal(cola, n.left);
             n.right = crearArbolAnimal(cola, n.right);
@@ -129,8 +126,8 @@ public class BT<E> {
 
             guardarArbol(bw, root);
         } catch (IOException ex) {
-            System.out.println("No se pudo encontrar el archivo");
-        }
+            Logger.getLogger(BT.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     private void guardarArbol(BufferedWriter bw, Node<E> n) {

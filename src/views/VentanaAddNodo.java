@@ -26,7 +26,6 @@ public class VentanaAddNodo {
 
     private Pane root;
     private TextField campoUser;
-    private Text tituloCampos;
     private Text textoGuia;
     private HBox opcionRespuesta;
     private String animal;
@@ -46,9 +45,9 @@ public class VentanaAddNodo {
     private void crearSeccionGuia() {
         campoUser = new TextField();
         campoUser.setMaxWidth(150);
-        tituloCampos = new Text("Ayudame a mejorar mi predicción!");
+        Text tituloCampos = new Text("Ayudame a mejorar mi predicción!");
         textoGuia = new Text("¿Qué animal estabas pensando?");
-        campoUser.setOnKeyReleased((ev) -> {
+        campoUser.setOnKeyReleased(ev -> {
             if (ev.getCode().equals(KeyCode.ENTER)) {
                 confirmarAnimal();
             }
@@ -66,12 +65,12 @@ public class VentanaAddNodo {
     private void crearConfirmarRespuesta() {
         Button si = new Button("Si");
         Button no = new Button("No");
-        si.setOnMouseClicked((ev) -> {
-            botonSi();
-        });
-        no.setOnMouseClicked((ev) -> {
-            botonNo();
-        });
+        si.setOnMouseClicked(ev -> 
+            botonSi()
+        );
+        no.setOnMouseClicked(ev -> 
+            botonNo()
+        );
         opcionRespuesta = new HBox();
         opcionRespuesta.setSpacing(20);
         opcionRespuesta.setAlignment(Pos.CENTER);
@@ -83,7 +82,7 @@ public class VentanaAddNodo {
             animal = campoUser.getText();
             campoUser.setText("");
             textoGuia.setText("Escribe una pregunta que me permita diferenciar\nentre un " + animal + " y " + animalAnterior);
-            campoUser.setOnKeyPressed((ev) -> {
+            campoUser.setOnKeyPressed(ev -> {
                 if(ev.getCode().equals(KeyCode.ENTER)) {
                     actualizarCampos();
                 }
@@ -106,14 +105,14 @@ public class VentanaAddNodo {
 
     private void botonSi() {
         textoGuia.setText("Gracias, he aprendido algo nuevo!");
-        arbol.añadirFaltante(animal, pregunta, "SI");
+        arbol.addFaltante(animal, pregunta, "SI");
         root.getChildren().remove(opcionRespuesta);
         arbol.guardarArbol();
     }
 
     private void botonNo() {
         textoGuia.setText("Gracias, he aprendido algo nuevo!");
-        arbol.añadirFaltante(animal, pregunta, "NO");
+        arbol.addFaltante(animal, pregunta, "NO");
         root.getChildren().remove(opcionRespuesta);
         arbol.guardarArbol();
     }

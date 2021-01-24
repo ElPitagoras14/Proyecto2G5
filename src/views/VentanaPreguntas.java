@@ -30,10 +30,6 @@ public class VentanaPreguntas {
     private Pane root;
     private VBox columnaInterfaz;
     private BT<String> arbolAnimal;
-    private Button si;
-    private Button no;
-    private Button reiniciar;
-    private TextField texto;
     private Text pregunta;
     private Text feedback;
     private String animalPrevio;
@@ -51,8 +47,8 @@ public class VentanaPreguntas {
     private void crearItems() {
         crearImagenes();
         crearSeccionFeedback();
-        crearSeccionAdivinar();
         crearSeccionPregunta();
+        crearSeccionAdivinar();
     }
 
     private void crearSeccionFeedback() {
@@ -88,18 +84,16 @@ public class VentanaPreguntas {
         h1.setAlignment(Pos.CENTER);
         h1.setSpacing(10);
 
-        si = new Button("SI");
-        no = new Button("NO");
-        reiniciar = new Button("Reiniciar");
-        si.setOnMouseClicked((ev) -> {
-            botonSi();
-        });
-        no.setOnMouseClicked((ev) -> {
-            botonNo();
-        });
-        reiniciar.setOnMouseClicked((ev) -> {
-            botonReiniciar();
-        });
+        Button si = new Button("SI");
+        Button no = new Button("NO");
+        Button reiniciar = new Button("Reiniciar");
+        
+        si.setOnMouseClicked(ev -> botonSi());
+        
+        no.setOnMouseClicked(ev -> botonNo());
+        
+        reiniciar.setOnMouseClicked(ev -> botonReiniciar());
+        
         h1.getChildren().add(si);
         h1.getChildren().add(no);
         h1.getChildren().add(reiniciar);
@@ -116,7 +110,7 @@ public class VentanaPreguntas {
         pregunta.setFill(Color.WHITE);
         pregunta.setScaleX(2);
         pregunta.setScaleY(2);
-        texto = new TextField();
+        TextField texto = new TextField();
         texto.setMaxWidth(150);
         texto.setDisable(true);
         texto.setVisible(false);
@@ -140,7 +134,7 @@ public class VentanaPreguntas {
         actualizarInfo();
         if (animalPrevio.equals(arbolAnimal.getNodoActualData())) {
             feedback.setText("No he podido adivinar, pero ayudame a mejorar");
-            añadirFaltanteInterfaz();
+            addFaltanteInterfaz();
         }
     }
 
@@ -150,7 +144,7 @@ public class VentanaPreguntas {
         actualizarInfo();
     }
     
-    private void añadirFaltanteInterfaz() {
+    private void addFaltanteInterfaz() {
         VentanaAddNodo ventana = new VentanaAddNodo();
         ventana.setAnimalAnterior(arbolAnimal.getNodoActualData());
         Scene scene = new Scene(ventana.getRoot(), 400, 400);
@@ -160,9 +154,7 @@ public class VentanaPreguntas {
         escenario.setTitle("boo!");
         escenario.show();
         ventana.setBT(arbolAnimal);
-        escenario.setOnCloseRequest((ev) -> {
-            botonReiniciar();
-        });
+        escenario.setOnCloseRequest(ev -> botonReiniciar());
     }
 
     private void actualizarInfo() {

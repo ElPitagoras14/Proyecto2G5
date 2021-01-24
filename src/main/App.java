@@ -16,20 +16,28 @@ import views.VentanaPrincipal;
  */
 public class App extends Application {
 
-    private static Scene scene;
     public static Stage primaria;
 
     @Override
     public void start(Stage primaryStage) {
         VentanaPrincipal vi = new VentanaPrincipal();
-        scene = new Scene(vi.getRoot(), 800, 500);
+        Scene scene = new Scene(vi.getRoot(), 800, 500);
         scene.getStylesheets().addAll(this.getClass().getResource("/src/Estilos.css").toExternalForm());
         primaryStage.setTitle("Genio Politecnico");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
-        primaria = primaryStage;
+        setPrimaria(primaryStage);
     }
+
+    public static Stage getPrimaria() {
+        return primaria;
+    }
+
+    public static void setPrimaria(Stage primaria) {
+        App.primaria = primaria;
+    }
+    
 
     /**
      * @param args the command line arguments
